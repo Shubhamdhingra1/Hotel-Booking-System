@@ -17,8 +17,6 @@ This is a MERN (MongoDB, Express, React, Node.js) project for a Hotel Booking Sy
 ![Screenshot 2023-10-31 222708](https://github.com/thepriyansh01/HotelBook.com/assets/124820498/33901ca5-f36c-40d0-9706-42d73ca3b002)
 ![Screenshot 2023-10-31 222930](https://github.com/thepriyansh01/HotelBook.com/assets/124820498/3d3764b8-7a07-46ea-b13d-77563c364558)
 ![Screenshot 2023-10-31 222939](https://github.com/thepriyansh01/HotelBook.com/assets/124820498/900caa26-1059-4974-99f9-30a3910acd32)
-![Screenshot 2023-10-31 222945](https://github.com/thepriyansh01/HotelBook.com/assets/124820498/30de7dfe-e010-4281-ab94-80c041f898f3)
-![Screenshot 2023-10-31 223037](https://github.com/thepriyansh01/HotelBook.com/assets/124820498/87c79026-74b5-4ad1-9637-4f4e3dc1319c)
 
   
 
