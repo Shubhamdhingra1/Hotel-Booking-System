@@ -1,0 +1,77 @@
+.bottomContainerWrapper{
+    margin-top: 15px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 870px;
+}
+.bottomContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: left;
+    gap: 15px;
+}
+
+.bottomContainer>label {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    /* border: 1px solid blue; */
+    padding: 3px;
+    margin: 5px;
+    height: 35px;
+    width: 162px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.addRoomsContainer{
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:stretch;
+    gap: 19px;
+}
+.addRooms {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+}
+
+.addRooms>label {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 3px;
+}
+
+.addRooms>input {
+    height: 35px;
+    width: 65px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.addRooms>button{
+    transform: scale(0.8);
+}
+
+                    
+.createButtonContainer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: right;
+}
+.createButtonContainer>p{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    padding-right: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}

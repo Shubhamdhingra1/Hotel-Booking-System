@@ -1,0 +1,36 @@
+.footer {
+  width: 100%;
+  padding-top: 20px;
+  font-size: 12px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.fLists {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 525px) {
+  .fLists {
+    flex-direction: column;
+    margin: 0px 25%;
+  }
+}
+
+.fList {
+  list-style: none;
+  padding: 0;
+}
+
+.fListItem {
+  margin-bottom: 10px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.fText {
+  padding: 5px;
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+}

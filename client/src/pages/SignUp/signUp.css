@@ -1,0 +1,120 @@
+.signup-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    height: 100vh;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.746), rgb(72, 51, 211), rgba(0, 0, 0, 0.672));
+}
+
+.signup-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 65px;
+    margin-bottom: 25px;
+    padding: 15px;
+    width: 100%;
+    max-width: 700px;
+    height: 600px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+}
+
+.signup-title {
+    color: white;
+    font-size: 48px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.signup-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-label {
+    display: block;
+    margin-bottom: 8px;
+    color: white;
+    width: 100%;
+    max-width: 370px;
+}
+
+.signup-input {
+    width: 100%;
+    max-width: 370px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signup-btn,
+.googleAuth-btn {
+    padding: 8px 16px;
+    background-color: #244ac8;
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    height: 40px;
+    width: 100%;
+    max-width: 390px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 100ms background-color ease-in-out;
+}
+
+.signup-btn:hover {
+    background-color: #2227b7;
+}
+
+.googleAuth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin:14px 0px;
+    background-color: #afffffff;
+    color: #636161;
+}
+
+.googleAuth-btn:hover {
+    background-color: #ffffff;
+}
+
+.googleAuth-btn>svg {
+    font-size: 24px;
+}
+
+.signup-error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.601);
+    color: #333;
+    width: max-content;
+    max-width: 370px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+}
+
+.auth-link{
+    padding: 8px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: blue;
+}

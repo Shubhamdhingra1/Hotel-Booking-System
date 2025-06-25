@@ -1,0 +1,159 @@
+.crud-hotel-wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.746), rgb(72, 51, 211), rgba(0, 0, 0, 0.672));
+}
+
+.crud-hotel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 65px;
+    margin-bottom: 25px;
+    padding: 15px;
+    width: 100%;
+    max-width: 700px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+}
+
+.crud-hotel__title {
+    color: white;
+    font-size: 48px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.crud-hotel__form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+}
+
+.crud-hotel__label {
+    display: block;
+    margin-bottom: 8px;
+    color: white;
+    width: 100%;
+    max-width: 370px;
+}
+
+.crud-hotel__input,
+.crud-hotel__textarea {
+    width: 100%;
+    max-width: 370px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.crud-hotel__textarea {
+    resize: vertical;
+    height: 200px;
+}
+
+#rating {
+    height: 20px;
+    width: 55px;
+    margin: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.crud-hotel__checkbox {
+    margin-left: 8px;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    margin-bottom: 16px;
+}
+
+.crud-hotel__button {
+    padding: 8px 16px;
+    background-color: #244ac8;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    height: 35px;
+    width: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 100ms background-color ease-in-out;
+}
+
+.crud-hotel__button:hover {
+    background-color: #2227b7;
+}
+
+.crud-hotel-bottomField {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.uploadContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px;
+    width: 95%;
+    margin: 8px 0px;
+}
+
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px;
+}
+
+.image {
+    height: 100px;
+    width: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+#photos {
+    width: 90%;
+    margin-top: 5px;
+}
+
+.uploadButton {
+    height: 35px;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: rgba(17, 17, 255, 0.7);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: 100ms background-color ease-in-out;
+}
+
+.uploadButton:hover {
+    background-color: rgba(0, 0, 255, 0.7);
+}

@@ -1,0 +1,237 @@
+.hotelPage {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.746), rgb(72, 51, 211), rgba(0, 0, 0, 0.672));
+    z-index: 0;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    margin-top: 115px;backdrop-filter: blur(10px);
+}
+
+.hotelContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 1024px;
+    margin: 10px 5px;
+}
+
+.hotelCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    background-color: rgba(204, 204, 204, 0.931);
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.hotelImageWrapper {
+    /* border: 1px solid #333; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.hotelImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 5px;
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.infoContainer {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    padding: 10px;
+}
+
+.hotelName {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.hotelType {
+    font-size: 14px;
+    font-weight: 600;
+    color: blue;
+    margin-bottom: 5px;
+}
+
+.hotelTitle,
+.hotelAddress {
+    font-size: 14px;
+    font-weight: 500;
+    color: #454545;
+    margin-top: 5px;
+}
+
+.buttonContainer {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 0px 12px 0px;
+}
+
+.buttonContainerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    width: 210px;
+}
+
+.updateButton,
+.deleteButton,
+.cancelButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+    height: 35px;
+    min-width: 80px;
+    width: max-content;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+}
+
+.updateButton {
+    background-color: rgba(0, 128, 0, 0.9);
+}
+
+.deleteButton {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+.cancelButton {
+    color: black;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.updateButton:hover {
+    background-color: rgba(0, 128, 0);
+}
+
+.deleteButton:hover {
+    background-color: rgba(255, 0, 0);
+}
+
+.cancelButton:hover {
+    color: black;
+    background-color: rgba(255, 255, 255);
+}
+
+.createButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(83, 36, 255);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
+    font-size: 15px;
+    height: 35px;
+}
+
+.deleteBox {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.deleteBoxWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    height: 325px;
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.alert {
+    font-size: 26px;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.smallAlert{
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+    margin: 18px 0px 12px 0px;
+}
+
+@media screen and (max-width: 490px) {
+    .hotelContainer {
+        flex-direction: column;
+        align-items: center;
+        max-width: 96vw;
+    }
+
+    .content {
+        margin-top: 165px;
+    }
+
+    .hotelCard {
+        max-width: 96%;
+    }
+
+    .infoContainer {
+        width: 100%;
+        height: auto;
+        border-radius: 0 0 10px 10px;
+        transform: scale(0.95);
+        padding: 10px;
+    }
+
+    .deleteBoxWrapper {
+        margin: 5px 10px;
+    }
+}

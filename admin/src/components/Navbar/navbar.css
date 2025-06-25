@@ -1,0 +1,77 @@
+.navbar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    padding-top: 8px;
+    justify-content: center;
+    background-color: rgba(85, 0, 255, 0.8);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+.navbarContainer {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 23px;
+}
+
+.logoAdmin {
+    color: #e0e0e0;
+}
+
+.navItems {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navButton,
+.navButton-userLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 2px solid wheat;
+    border-radius: 8px;
+    margin-right: 8px;
+    padding: 6px;
+    font-size: 14px;
+    width: max-content;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(245, 222, 179, 0.05);
+    position: relative;
+}
+
+.navButton-userLogo {
+    border: none;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.userLogoButton {
+    height: 40px;
+    width: 40px;
+    border: 1px solid white;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 308px) {
+    .navButton {
+        font-size: 10px;
+        margin-right: 4px;
+    }
+}
