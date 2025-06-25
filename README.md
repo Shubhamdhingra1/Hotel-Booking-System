@@ -1,5 +1,5 @@
 # MERN Project - Hotel Booking System
-
+Live url - https://hotel-book-com-client.vercel.app/
 This is a MERN (MongoDB, Express, React, Node.js) project for a Hotel Booking System. It consists of a server, client-side, and admin-side components. Users can create accounts, log in using JWT authentication, and search for hotels and book them within a range of dates. The backend utilizes bcrypt for password encryption and CORS for handling cross-origin requests, while the frontend uses Axios for making API requests.
 
 ## Features
