@@ -110,7 +110,3 @@ npm start
 
 9. Access the application:
    Open your browser and visit http://localhost:3000 & http://localhost:3001 to access the Hotel Booking System.
-
-## License
-
-This project is licensed under the MIT License.
