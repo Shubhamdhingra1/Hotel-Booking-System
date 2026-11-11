@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './header.css';
-import { baseURL } from '../../baseURL/baseURL';
-import axios from 'axios';
+import { httpClient } from '../../shared/api/httpClient';
 
 const Header = () => {
     const location = useLocation();
@@ -11,11 +10,10 @@ const Header = () => {
     const [users, setUsers] = useState([]);
 
     const getData = async () => {
-        const access_token = localStorage.getItem('access_token');
         try {
-            const hotelResponse = await axios.get(`${baseURL}/hotel`);
+            const hotelResponse = await httpClient.get("/hotel");
             setHotels(hotelResponse.data);
-            const userResponse = await axios.get(`${baseURL}/user/${access_token}`);
+            const userResponse = await httpClient.get("/user");
             setUsers(userResponse.data);
         } catch (error) {
             console.log(error);

@@ -1,0 +1,188 @@
+/* Banner: same panel as .headerSearch (lives inside .headerContainer) */
+
+.carHostCta--banner.carHostCtaBanner {
+  background-color: rgb(245, 222, 179, 0.1);
+  border: 2px solid rgba(245, 222, 179, 0.6);
+  border-radius: 8px;
+  width: 94%;
+  max-width: 1024px;
+  margin-top: 15px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.carHostCtaBannerGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.25rem 1.75rem;
+  align-items: center;
+  padding: 14px 12px;
+}
+
+@media (max-width: 768px) {
+  .carHostCtaBannerGrid {
+    grid-template-columns: 1fr;
+    padding: 12px 10px;
+    gap: 1rem;
+  }
+}
+
+.carHostCtaEyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgb(245, 222, 179);
+  border: 1px solid rgba(245, 222, 179, 0.45);
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+.carHostCtaTitle {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.carHostCtaSubtitle {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.carHostCtaFeatures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+}
+
+.carHostCtaFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(245, 222, 179, 0.95);
+}
+
+.carHostCtaFeatureIcon {
+  color: rgb(245, 222, 179);
+  flex-shrink: 0;
+}
+
+.carHostCtaBannerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 168px;
+}
+
+@media (max-width: 768px) {
+  .carHostCtaBannerActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .carHostCtaBannerActions .carHostCtaBtn {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+.carHostCtaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+}
+
+.carHostCta--banner .carHostCtaBtn--primary {
+  border: 2px solid rgba(245, 222, 179, 0.6);
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.carHostCta--banner .carHostCtaBtn--primary:hover {
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.carHostCta--banner .carHostCtaBtn--secondary {
+  border: 2px solid wheat;
+  color: #fff;
+  background-color: rgb(245, 222, 179, 0.1);
+}
+
+.carHostCta--banner .carHostCtaBtn--secondary:hover {
+  background-color: rgb(245, 222, 179, 0.2);
+  color: #fff;
+}
+
+/* Compact — car list sidebar */
+.carHostCta--compact {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #e2e8f0;
+}
+
+.carHostCtaCompactText {
+  margin: 0 0 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.carHostCtaCompactActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.carHostCta--compact .carHostCtaBtn--primary {
+  background: linear-gradient(135deg, #003580 0%, #002a66 100%);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+}
+
+.carHostCta--compact .carHostCtaBtn--primary:hover {
+  color: #fff;
+  opacity: 0.92;
+}
+
+.carHostCta--compact .carHostCtaBtn--ghost {
+  background: transparent;
+  color: #003580;
+  border: 1px solid #cbd5e1;
+  font-size: 0.8rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+}
+
+.carHostCta--compact .carHostCtaBtn--ghost:hover {
+  background: #f8fafc;
+}

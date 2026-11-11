@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
 import './login.css';
 import { AuthContext } from '../../Context/authContext';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import { baseURL } from '../../baseURL/baseURL';
+import { loginWithCredentials } from '../../features/users/userApi';
+import { completeAuthSession } from '../../shared/auth/session';
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider } from '../../components/GoogleAuth/googleAuth';
 import { signInWithPopup } from "firebase/auth";
@@ -25,18 +25,10 @@ const Login = () => {
         e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post(`${baseURL}/auth/login`, credentials);
-            console.log(res.data);
+            const res = await loginWithCredentials(credentials);
             if (res.data.success) {
-                localStorage.setItem("access_token", res.data.access_token);
-                try {
-                    const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data.access_token}/${res.data.userId}`);
-                    dispatch({ type: "LOGIN_SUCCESS", payload: userInfo.data });
-                    console.log(userInfo.data);
-                    navigate('/');
-                } catch (error) {
-                    console.log(error);
-                }
+                await completeAuthSession(dispatch, res.data.access_token, res.data.userId);
+                navigate('/');
             }
 
         } catch (error) {
@@ -52,20 +44,13 @@ const Login = () => {
             if (result.user) {
                 dispatch({ type: "LOGIN_START" });
                 try {
-                    const res = await axios.post(`${baseURL}/auth/login`, {
+                    const res = await loginWithCredentials({
                         email: result.user.email,
-                        password: result.user.uid
+                        password: result.user.uid,
                     });
                     if (res.data.success) {
-                        localStorage.setItem("access_token", res.data.access_token);
-                        try {
-                            const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data.access_token}/${res.data.userId}`);
-                            dispatch({ type: "LOGIN_SUCCESS", payload: userInfo.data });
-                            console.log(userInfo.data);
-                            navigate('/');
-                        } catch (error) {
-                            console.log(error);
-                        }
+                        await completeAuthSession(dispatch, res.data.access_token, res.data.userId);
+                        navigate('/');
                     }
 
                 } catch (error) {

@@ -1,4 +1,10 @@
 import axios from 'axios';
+import {
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_UPLOAD_PRESET,
+    cloudinaryUploadUrl,
+} from '../../shared/upload/cloudinaryConfig';
+import { httpClient } from '../../shared/api/httpClient';
 import React, { useState } from 'react';
 import './createHotel.css';
 import Navbar from '../../components/Navbar/navbar';
@@ -69,10 +75,10 @@ const CreateHotel = () => {
                 Object.values(files).map(async (file) => {
                     const data = new FormData();
                     data.append("file", file);
-                    data.append("upload_preset", "HotelBook.com");
-                    data.append("cloud_name", "dox9ptswj");
+                    data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+                    data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
                     const uploadRes = await axios.post(
-                        "https://api.cloudinary.com/v1_1/dox9ptswj/image/upload",
+                        cloudinaryUploadUrl("image"),
                         data
                     );
 
@@ -87,7 +93,7 @@ const CreateHotel = () => {
                 photos: list,
             };
 
-            const response = await axios.post(`${baseURL}/hotel/${localStorage.getItem('access_token')}`, newhotel);
+            const response = await httpClient.post("/hotel", newhotel);
             navigate('/hotels')
             console.log('Hotel created');
             setCreating(false);

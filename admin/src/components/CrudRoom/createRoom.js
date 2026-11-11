@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { httpClient } from "../../shared/api/httpClient";
 import './createRoom.css';
 import { baseURL } from "../../baseURL/baseURL";
 
@@ -21,9 +21,8 @@ const CreateRoom = ({ hotelId }) => {
             roomNumbers,
         };
 
-        const access_token = localStorage.getItem('access_token');
         try {
-            await axios.post(`${baseURL}/room/token/${access_token}/${hotelId}`, newRoom);
+            await httpClient.post(`/room/hotel/${hotelId}`, newRoom);
             console.log("Room created successfully!");
             // Reset form values
             setTitle("");

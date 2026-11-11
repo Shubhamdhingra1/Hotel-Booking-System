@@ -1,5 +1,5 @@
 import "./header.css";
-import { FaBed, FaPlane, FaCar, FaTaxi, FaCalendarAlt } from "react-icons/fa";
+import { FaBed, FaPlane, FaCalendarAlt } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file for calendar range
@@ -10,8 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../Context/searchContext";
 import useFetch from "../../hooks/useFetch";
 import { baseURL } from "../../baseURL/baseURL";
+import ServiceTabs from "./ServiceTabs";
+import {
+  DEFAULT_SEARCH_OPTIONS,
+  formatPeopleCount,
+} from "../../utils/searchOptions";
 
-const Header = ({ type }) => {
+const Header = ({ type, activeTab = "stays", afterSearch = null }) => {
   const { data } = useFetch(`${baseURL}/hotel/allCities`)
   const hotelCities = data;
   const [openSearchSuggestions, setOpenSearchSuggestions] = useState(false);
@@ -50,20 +55,15 @@ const Header = ({ type }) => {
   ]);
 
   const [showOptions, setShowOptions] = useState(false);
-  const [options, setOptions] = useState({
-    adults: 1,
-    children: 0,
-    rooms: 1,
-  });
+  const [options, setOptions] = useState(DEFAULT_SEARCH_OPTIONS);
 
-  const handleOptions = (name, operation) => {
-    setOptions((prev) => {
-      return {
-        ...prev,
-        [name]:
-          operation === "increase" ? options[name] + 1 : options[name] - 1,
-      };
-    });
+  const handlePeopleChange = (operation) => {
+    setOptions((prev) => ({
+      people:
+        operation === "increase"
+          ? prev.people + 1
+          : Math.max(1, prev.people - 1),
+    }));
   };
 
   const navigate = useNavigate();
@@ -74,35 +74,184 @@ const Header = ({ type }) => {
   
   const handleSearch = () => {
     dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
-    // console.log("Dispatched from Header's handleSearch");
     navigate("/hotels", { state: { destination, dates, options } });
   };
+
+  const [flightFrom, setFlightFrom] = useState("Delhi");
+  const [flightTo, setFlightTo] = useState("Mumbai");
+
+  const handleFlightSearch = () => {
+    navigate("/flights/list", {
+      state: { from: flightFrom, to: flightTo, dates, passengers: options.people },
+    });
+  };
+
+  const handleCarSearch = () => {
+    navigate("/car-rentals/list", { state: { city: destination || "Mumbai", dates } });
+  };
+
+  const renderSearchBar = () => {
+    if (activeTab === "stays") {
+      return (
+        <div className="headerSearch">
+          <div className="headerSearchItems">
+            <FaBed className="headerSearchIcon" />
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Where are you going?"
+              className="headerSearchInput"
+              onChange={handleChange}
+            />
+            {openSearchSuggestions && (
+              <ul className="searchSuggestionList">
+                {filteredSuggestions.slice(0, 10).map((suggestion) => (
+                  <li
+                    key={suggestion}
+                    onClick={() => handleSelectSuggestion(suggestion)}
+                    className="searchSuggestion"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {renderDateAndGuests()}
+          <div className="headerSearchItems">
+            <button className="headerSearchButton" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === "flights") {
+      return (
+        <div className="headerSearch">
+          <div className="headerSearchItems">
+            <FaPlane className="headerSearchIcon" />
+            <input
+              className="headerSearchInput"
+              placeholder="From"
+              value={flightFrom}
+              onChange={(e) => setFlightFrom(e.target.value)}
+            />
+          </div>
+          <div className="headerSearchItems">
+            <input
+              className="headerSearchInput"
+              placeholder="To"
+              value={flightTo}
+              onChange={(e) => setFlightTo(e.target.value)}
+            />
+          </div>
+          {renderDateAndGuests()}
+          <div className="headerSearchItems">
+            <button type="button" className="headerSearchButton" onClick={handleFlightSearch}>
+              Search flights
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="headerSearch">
+        <div className="headerSearchItems">
+          <FaBed className="headerSearchIcon" />
+          <input
+            type="text"
+            placeholder="City"
+            className="headerSearchInput"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+          />
+        </div>
+        {renderDateAndGuests()}
+        <div className="headerSearchItems">
+          <button type="button" className="headerSearchButton" onClick={handleCarSearch}>
+            Search
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderDateAndGuests = () => (
+    <>
+      <div className="headerSearchItems calendar">
+        <FaCalendarAlt
+          onClick={() => {
+            setShowCalendar(!showCalendar);
+            setShowOptions(false);
+          }}
+          className="headerSearchIcon"
+        />
+        <span
+          onClick={() => {
+            setShowCalendar(!showCalendar);
+            setShowOptions(false);
+          }}
+          className="headerSearchInput"
+        >
+          {`${format(dates[0].startDate, "dd/MM/yyyy")} to ${format(dates[0].endDate, "dd/MM/yyyy")}`}
+        </span>
+        {showCalendar && (
+          <DateRange
+            editableDateInputs={true}
+            onChange={(item) => setDates([item.selection])}
+            moveRangeOnFirstSelection={false}
+            ranges={dates}
+            minDate={new Date()}
+            className="date"
+          />
+        )}
+      </div>
+      <div className="headerSearchItems option">
+        <BsFillPersonFill
+          onClick={() => {
+            setShowOptions(!showOptions);
+            setShowCalendar(false);
+          }}
+          className="headerSearchIcon"
+        />
+        <span
+          onClick={() => {
+            setShowOptions(!showOptions);
+            setShowCalendar(false);
+          }}
+          className="headerSearchInput"
+        >{formatPeopleCount(options.people)}</span>
+        {showOptions && (
+          <div className="options">
+            <div className="optionItem">
+              <span className="optionText">People:</span>
+              <div className="optionsButtonContainer">
+                <button
+                  disabled={options.people <= 1}
+                  className="optionCounterButton"
+                  onClick={() => handlePeopleChange("decrease")}
+                >
+                  -
+                </button>
+                <span className="optionCounterNumber">{options.people}</span>
+                <button className="optionCounterButton" onClick={() => handlePeopleChange("increase")}>
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
 
   return (
     <div className="header">
       <div className="headerContainer">
-        <div className="headerList">
-          <div className="headerListItems active">
-            <FaBed />
-            <span>Stays</span>
-          </div>
-          <div className="headerListItems">
-            <FaPlane />
-            <span>Flights</span>
-          </div>
-          <div className="headerListItems">
-            <FaCar />
-            <span>Car rentals</span>
-          </div>
-          <div className="headerListItems">
-            <FaBed />
-            <span>Attractions</span>
-          </div>
-          <div className="headerListItems">
-            <FaTaxi />
-            <span>Airport taxis</span>
-          </div>
-        </div>
+        <ServiceTabs activeTab={activeTab} />
         {type !== "list" && (
           <>
             <h1 className="headerTitle">
@@ -113,154 +262,10 @@ const Header = ({ type }) => {
               more with a free HotelBook account
             </p>
             {localStorage.getItem("user") === null && (
-              <button className="headerSignButton">Sign in / Register</button>
+              <button type="button" className="headerSignButton">Sign in / Register</button>
             )}
-
-            <div className="headerSearch">
-              <div className="headerSearchItems">
-                <FaBed className="headerSearchIcon" />
-                <input
-                  type="text"
-                  id="searchInput"
-                  placeholder="Where are you going?"
-                  className="headerSearchInput"
-                  onChange={handleChange}
-                />
-                {openSearchSuggestions && (
-                  <ul className="searchSuggestionList">
-                    {filteredSuggestions.slice(0,10).map((suggestion) => (
-                      <li
-                        key={suggestion}
-                        onClick={() => handleSelectSuggestion(suggestion)}
-                        className="searchSuggestion"
-                      >
-                        {suggestion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-              <div className="headerSearchItems calendar">
-                <FaCalendarAlt
-                  onClick={() => {
-                    setShowCalendar(!showCalendar);
-                    setShowOptions(false);
-                  }}
-                  className="headerSearchIcon"
-                />
-                <span
-                  onClick={() => {
-                    setShowCalendar(!showCalendar);
-                    setShowOptions(false);
-                  }}
-                  className="headerSearchInput"
-                >
-                  {`${format(dates[0].startDate, "dd/MM/yyyy")}
-                to 
-                ${format(dates[0].endDate, "dd/MM/yyyy")}`}
-                </span>
-
-                {showCalendar && (
-                  <DateRange
-                    editableDateInputs={true}
-                    onChange={(item) => setDates([item.selection])}
-                    moveRangeOnFirstSelection={false}
-                    ranges={dates}
-                    minDate={new Date()}
-                    className="date"
-                  />
-                )}
-              </div>
-              <div className="headerSearchItems option">
-                <BsFillPersonFill
-                  onClick={() => {
-                    setShowOptions(!showOptions);
-                    setShowCalendar(false);
-                  }}
-                  className="headerSearchIcon"
-                />
-                <span
-                  onClick={() => {
-                    setShowOptions(!showOptions);
-                    setShowCalendar(false);
-                  }}
-                  className="headerSearchInput"
-                >{`${options.adults} adults, ${options.children} children, ${options.rooms} room`}</span>
-
-                {showOptions && (
-                  <div className="options">
-                    <div className="optionItem">
-                      <span className="optionText">Adults:</span>
-                      <div className="optionsButtonContainer">
-                        <button
-                          disabled={options.adults <= 1}
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("adults", "decrease")}
-                        >
-                          -
-                        </button>
-                        <span className="optionCounterNumber">
-                          {options.adults}
-                        </span>
-                        <button
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("adults", "increase")}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="optionItem">
-                      <span className="optionText">Children:</span>
-                      <div className="optionsButtonContainer">
-                        <button
-                          disabled={options.children <= 0}
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("children", "decrease")}
-                        >
-                          -
-                        </button>
-                        <span className="optionCounterNumber">
-                          {options.children}
-                        </span>
-                        <button
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("children", "increase")}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="optionItem">
-                      <span className="optionText">Rooms:</span>
-                      <div className="optionsButtonContainer">
-                        <button
-                          disabled={options.rooms <= 1}
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("rooms", "decrease")}
-                        >
-                          -
-                        </button>
-                        <span className="optionCounterNumber">
-                          {options.rooms}
-                        </span>
-                        <button
-                          className="optionCounterButton"
-                          onClick={() => handleOptions("rooms", "increase")}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="headerSearchItems">
-                <button className="headerSearchButton" onClick={handleSearch}>
-                  Search
-                </button>
-              </div>
-            </div>
+            {renderSearchBar()}
+            {afterSearch}
           </>
         )}
       </div>

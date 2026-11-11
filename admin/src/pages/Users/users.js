@@ -6,7 +6,7 @@ import useFetch from '../../hooks/useFetch';
 import './users.css';
 
 const Users = () => {
-    const { data } = useFetch(`${baseURL}/user/${localStorage.getItem('access_token')}`);
+    const { data } = useFetch(`${baseURL}/user`);
 
     return (
         <div className='user-page'>

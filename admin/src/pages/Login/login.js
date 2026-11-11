@@ -1,12 +1,13 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './login.css';
 import { AuthContext } from '../../Context/authContext';
-import axios from 'axios';
+import { httpClient } from '../../shared/api/httpClient';
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '../../baseURL/baseURL';
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider } from '../../components/GoogleAuth/googleAuth';
 import { signInWithPopup } from "firebase/auth";
+import { completeAuthSession } from '../../shared/auth/session';
+import { requireAdminProfile } from '../../shared/auth/requireAdmin';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -19,29 +20,38 @@ const Login = () => {
     };
 
     const navigate = useNavigate();
-    const { loading, error, dispatch } = useContext(AuthContext);
+    const { user, loading, error, dispatch } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (user?.isAdmin) {
+            navigate('/', { replace: true });
+        }
+    }, [user, navigate]);
+
+    const finishLogin = async (accessToken, userId) => {
+        const profile = await completeAuthSession(dispatch, accessToken, userId);
+        if (!requireAdminProfile(dispatch, profile)) return;
+        navigate('/', { replace: true });
+    };
+
+    const loginErrorPayload = (err) =>
+        err.response?.data ?? { message: err.message || "Login failed. Is the API running on port 8080?" };
 
     const handleLogin = async (e) => {
         e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post(`${baseURL}/auth/login`, credentials);
-            console.log(res.data);
+            const res = await httpClient.post("/auth/login", credentials);
             if (res.data.success) {
-                localStorage.setItem("access_token", res.data.access_token);
-                try {
-                    const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data.access_token}/${res.data.userId}`);
-                    dispatch({ type: "LOGIN_SUCCESS", payload: userInfo.data });
-                    console.log(userInfo.data);
-                    navigate('/');
-                } catch (error) {
-                    console.log(error);
-                }
+                await finishLogin(res.data.access_token, res.data.userId);
+            } else {
+                dispatch({
+                    type: "LOGIN_FAILURE",
+                    payload: { message: res.data.message || "Login failed" },
+                });
             }
-
-        } catch (error) {
-            dispatch({ type: "LOGIN_FAILURE", payload: error.response.data });
-            console.log(error);
+        } catch (err) {
+            dispatch({ type: "LOGIN_FAILURE", payload: loginErrorPayload(err) });
         }
     };
 
@@ -52,35 +62,21 @@ const Login = () => {
             if (result.user) {
                 dispatch({ type: "LOGIN_START" });
                 try {
-                    const res = await axios.post(`${baseURL}/auth/login`, {
+                    const res = await httpClient.post("/auth/login", {
                         email: result.user.email,
-                        password: result.user.uid
+                        password: result.user.uid,
                     });
                     if (res.data.success) {
-                        localStorage.setItem("access_token", res.data.access_token);
-                        try {
-                            const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data.access_token}/${res.data.userId}`);
-                            dispatch({ type: "LOGIN_SUCCESS", payload: userInfo.data });
-                            console.log(userInfo.data);
-                            navigate('/');
-                        } catch (error) {
-                            console.log(error);
-                        }
+                        await finishLogin(res.data.access_token, res.data.userId);
                     }
-
-                } catch (error) {
-                    dispatch({ type: "LOGIN_FAILURE", payload: error.response.data });
-                    console.log(error);
+                } catch (err) {
+                    dispatch({ type: "LOGIN_FAILURE", payload: loginErrorPayload(err) });
                 }
             }
-        } catch (error) {
-            console.log('Error signing in with Google:', error.code, error.message);
+        } catch (err) {
+            console.log('Error signing in with Google:', err.code, err.message);
         }
     };
-
-
-
-
 
     return (
         <div className='signup-container'>

@@ -1,0 +1,429 @@
+.travelDetailPage {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #e8eef7 0%, #f8fafc 280px, #f1f5f9 100%);
+}
+
+.travelDetailLoading {
+  padding: 48px;
+  text-align: center;
+  color: #475569;
+}
+
+.travelDetailTopBar {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 0;
+}
+
+.travelDetailBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #003580;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.travelDetailBack:hover {
+  text-decoration: underline;
+}
+
+.travelDetailHero {
+  position: relative;
+  max-width: 1080px;
+  margin: 0.75rem auto 0;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+}
+
+.travelDetailHero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.travelDetailHeroText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 32px;
+  background: linear-gradient(transparent, rgba(15, 23, 42, 0.85));
+  color: #fff;
+}
+
+.travelDetailHeroText h1 {
+  margin: 0 0 6px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.travelDetailHeroText p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.travelDetailGallery {
+  display: flex;
+  gap: 8px;
+  max-width: 1080px;
+  margin: 12px auto 0;
+  padding: 0 1.25rem;
+  overflow-x: auto;
+}
+
+.travelDetailGalleryThumb {
+  flex: 0 0 88px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+.travelDetailGalleryThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.travelDetailGalleryThumb.active {
+  border-color: #003580;
+  box-shadow: 0 0 0 2px rgba(0, 53, 128, 0.25);
+}
+
+.travelDetailBody {
+  max-width: 1080px;
+  margin: 24px auto 48px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .travelDetailBody {
+    grid-template-columns: 1fr;
+  }
+
+  .travelDetailHero {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 260px;
+    border-radius: 12px;
+  }
+}
+
+.travelDetailCard,
+.travelDetailBook {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.travelDetailCard h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+.travelDetailSpecs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.travelDetailSpec {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.travelDetailSpec.peer {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.travelDetailInfoGrid {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.travelDetailInfoGrid li {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #334155;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.travelDetailInfoGrid li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.travelDetailInfoGrid strong {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.travelDetailPickup {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  border-left: 4px solid #003580;
+}
+
+.travelDetailPickup h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.travelDetailPickup p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.travelDetailAvailability {
+  margin-top: 1.5rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 12px;
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+}
+
+.travelDetailAvailabilityHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.travelDetailAvailability h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.travelDetailStatusBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.travelDetailStatusBadge.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.travelDetailStatusBadge.bad {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.travelDetailAvailabilityHint,
+.travelDetailAvailabilityStatus {
+  margin: 0 0 0.75rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.travelDetailAvailabilityStatus {
+  margin-top: 0.85rem;
+  margin-bottom: 0;
+}
+
+.travelDetailAvailabilityStatus--bad {
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.travelDetailDateRange {
+  margin-top: 0.5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.travelDetailDateRange .travelDetailDatePicker {
+  width: 100%;
+}
+
+.travelDetailDateRange .rdrCalendarWrapper {
+  width: 100%;
+  max-width: none;
+}
+
+.travelDetailBookedDays {
+  margin-top: 0.75rem !important;
+  font-size: 0.85rem !important;
+  color: #94a3b8 !important;
+}
+
+.travelDetailBookedChipsLabel {
+  width: 100%;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.travelDetailBookedChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.75rem;
+}
+
+.travelDetailBookedChip {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #64748b;
+}
+
+.travelDetailBook {
+  position: sticky;
+  top: 20px;
+}
+
+.travelDetailBookInner {
+  border-top: 3px solid #003580;
+  margin: -4px 0 0;
+  padding-top: 4px;
+}
+
+.travelDetailPrice {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.travelDetailPriceHint {
+  display: block;
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.travelDetailSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.travelDetailSummaryDivider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 1rem 0;
+}
+
+.travelDetailTotal {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+}
+
+.travelDetailPassengers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.travelDetailPassengers input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+}
+
+.travelDetailRentalDays {
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+  color: #64748b;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.travelDetailBtn {
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #003580 0%, #002a66 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(0, 53, 128, 0.35);
+}
+
+.travelDetailBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 53, 128, 0.4);
+}
+
+.travelDetailBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.travelDetailTrust {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.travelDetailCard ul:not(.travelDetailInfoGrid) {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  line-height: 1.8;
+  color: #334155;
+}

@@ -13,7 +13,6 @@ const SearchItems = ({ data }) => {
       <div className="siDesc">
         <h1 className="siTitle">{data.name.slice(0,30)}</h1>
         <span className="siDistance">{data.distance}</span>
-        <span className="siTaxiOp">Free airport taxi</span>
         <span className="siSubtitle">
           {data.title.slice(0,50)+"..."}
         </span>

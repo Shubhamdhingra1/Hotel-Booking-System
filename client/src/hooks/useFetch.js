@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react"
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { httpClient, toApiPath } from "../shared/api/httpClient";
 
+/**
+ * Fetches JSON from the API once; optional reFetch for manual refresh.
+ */
 const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
+        if (!url) {
+            setLoading(false);
+            return;
+        }
         const fetchData = async () => {
             try {
-                const response = await axios.get(url);
+                const response = await httpClient.get(toApiPath(url));
                 const data = await response.data;
                 setData(data);
                 setLoading(false);
@@ -23,10 +30,10 @@ const useFetch = (url) => {
 
 
     const reFetch = async () => {
+        if (!url) return;
         try {
-            const response = await axios.get(url);
-            const data = await response.data;
-            setData(data);
+            const response = await httpClient.get(toApiPath(url));
+            setData(response.data);
             setLoading(false);
         } catch (error) {
             setLoading(false);

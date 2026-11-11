@@ -1,6 +1,8 @@
 import Hotel from "../models/hotel.js";
 import Room from "../models/room.js";
 import User from "../models/user.js";
+import { blockRoomNights } from "../services/roomBookingService.js";
+import { validateRoomDatesBody } from "../validators/bookingValidators.js";
 
 export const createRoom = async (req, res, next) => {
     const hotelId = req.params.hotelId;
@@ -34,17 +36,15 @@ export const updateRoom = async (req, res, next) => {
     }
 };
 
+/** Persists booked nights for a specific room number. */
 export const updateRoomAvailability = async (req, res, next) => {
     try {
-        await Room.updateOne(
-            { "roomNumbers._id": req.params.roomId },
-            {
-                $push: {
-                    "roomNumbers.$.unavailableDates": req.body.dates
-                },
-            }
-        );
-        res.status(200).json("Room status has been updated.");
+        const rawDates = validateRoomDatesBody(req.body);
+        const { bookedDates } = await blockRoomNights(req.params.roomId, rawDates);
+        res.status(200).json({
+            message: "Room status has been updated.",
+            bookedDates,
+        });
     } catch (err) {
         next(err);
     }

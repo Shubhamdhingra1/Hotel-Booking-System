@@ -1,5 +1,6 @@
 import Hotel from '../models/hotel.js';
 import Room from '../models/room.js';
+import { searchHotels } from '../services/hotelSearchService.js';
 
 // CREATE operation
 export const createHotel = async (req, res, next) => {
@@ -12,42 +13,21 @@ export const createHotel = async (req, res, next) => {
     }
 };
 
-// READ operation to fetch all hotels
+/** Lists hotels using search filters and optional party-size capacity filter. */
 export const getHotels = async (req, res, next) => {
-    const { min, max, limit, city, type, ...otherDetails } = req.query;
-    // console.log(city, type);
+    const { min, max, limit, city, type, people, ...otherDetails } = req.query;
+
     try {
-        if (city === undefined && type === undefined) {
-            // console.log('first')
-            const hotels = await Hotel.find({
-                ...otherDetails,
-                cheapestPrice: { $gt: min || -1, $lt: max || 999999 }
-            }).limit(limit);
-            res.json(hotels);
-        } else if (type === '' || type === 'undefined' || type === undefined) {
-            const hotels = await Hotel.find({
-                ...otherDetails,
-                city: city,
-                cheapestPrice: { $gt: min || -1, $lt: max || 999999 }
-            }).limit(limit);
-            res.json(hotels);
-        } else if (city === '') {
-            const hotels = await Hotel.find({
-                ...otherDetails,
-                type: type,
-                cheapestPrice: { $gt: min || -1, $lt: max || 999999 }
-            }).limit(limit);
-            res.json(hotels);
-        } else {
-            // console.log('last')
-            const hotels = await Hotel.find({
-                ...otherDetails,
-                city: city,
-                type: type,
-                cheapestPrice: { $gt: min || -1, $lt: max || 999999 }
-            }).limit(limit);
-            res.json(hotels);
-        }
+        const hotels = await searchHotels({
+            min,
+            max,
+            limit,
+            city,
+            type,
+            people,
+            otherDetails,
+        });
+        res.json(hotels);
     } catch (error) {
         next(error);
     }

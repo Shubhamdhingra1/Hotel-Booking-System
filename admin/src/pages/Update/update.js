@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/navbar';
 import useFetch from '../../hooks/useFetch';
 import './update.css';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { httpClient } from '../../shared/api/httpClient';
 import UpdateRoom from '../../components/CrudRoom/updateRoom';
 import CreateRoom from '../../components/CrudRoom/createRoom';
 
@@ -52,15 +52,14 @@ const Update = () => {
     const navigate = useNavigate();
     const handleAction = async () => {
         setAction(action);
-        const access_token = localStorage.getItem("access_token");
         try {
             if (action === "update") {
-                await axios.patch(`${baseURL}/hotel/${access_token}/id/${hotelId}`, hotelData);
+                await httpClient.patch(`/hotel/id/${hotelId}`, hotelData);
                 console.log("Hotel updated successfully");
                 reFetch();
                 setAlert(false);
             } else if (action === "delete") {
-                await axios.delete(`${baseURL}/hotel/${access_token}/id/${hotelId}`);
+                await httpClient.delete(`/hotel/id/${hotelId}`);
                 console.log("Hotel deleted");
                 setAlert(false);
                 navigate('/hotels');

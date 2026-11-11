@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { baseURL } from "../../baseURL/baseURL";
 import useFetch from "../../hooks/useFetch";
-import axios from "axios";
+import { httpClient } from "../../shared/api/httpClient";
 
 const UpdateRoom = ({ hotelId, roomId, i }) => {
     const { data, loading, reFetch } = useFetch(
@@ -28,10 +28,9 @@ const UpdateRoom = ({ hotelId, roomId, i }) => {
     const [alert, setAlert] = useState(false);
     const handleAction = async () => {
         setAction(action);
-        const access_token = localStorage.getItem("access_token");
         try {
             if (action === "update") {
-                await axios.patch(`${baseURL}/room/token/${access_token}/${roomId}`, {
+                await httpClient.patch(`/room/${roomId}`, {
                     title,
                     description,
                     price,
@@ -40,9 +39,7 @@ const UpdateRoom = ({ hotelId, roomId, i }) => {
                 reFetch();
                 console.log("Room updated successfully");
             } else if (action === "delete") {
-                await axios.delete(
-                    `${baseURL}/room/token/${access_token}/${hotelId}/${roomId}`
-                );
+                await httpClient.delete(`/room/hotel/${hotelId}/id/${roomId}`);
                 reFetch();
                 console.log("Room deleted successfully");
             }

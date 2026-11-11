@@ -9,27 +9,32 @@ import useFetch from "../../hooks/useFetch";
 import { baseURL } from "../../baseURL/baseURL";
 import { SearchContext } from "../../Context/searchContext";
 import { useLocation } from "react-router-dom";
+import { DEFAULT_SEARCH_OPTIONS, normalizeSearchOptions } from "../../utils/searchOptions";
+import Footer from "../../components/Footer/footer";
 
 const Hotels = () => {
   const location = useLocation();
 
-  const [destination, setDestination] = useState(location.state.destination);
-  const [type, setType] = useState(location.state.type);
-  const [dates, setDates] = useState(location.state.dates);
+  const defaultDates = [{ startDate: new Date(), endDate: new Date(), key: "selection" }];
+  const [destination, setDestination] = useState(location.state?.destination ?? "");
+  const [type, setType] = useState(location.state?.type ?? "");
+  const [dates, setDates] = useState(location.state?.dates ?? defaultDates);
   const [openDate, setOpenDate] = useState(false);
-  const [options, setOptions] = useState(location.state.options);
+  const [options, setOptions] = useState(
+    normalizeSearchOptions(location.state?.options) ?? DEFAULT_SEARCH_OPTIONS
+  );
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(99999);
 
-  const handleOptions = (name, value) => {
-    setOptions(prev => {
-      return {
-        ...prev, [name]: value ? options[name] = value : options[name],
-      }
-    })
-  }
+  const handlePeopleChange = (value) => {
+    const people = Math.max(1, Number(value) || 1);
+    setOptions({ people });
+  };
 
-  const { data, loading, error, reFetch } = useFetch(`${baseURL}/hotel?city=${destination}&type=${type}&min=${min || 0}&max=${max || 99999}`);
+  const people = options.people || 1;
+  const { data, loading, error, reFetch } = useFetch(
+    `${baseURL}/hotel?city=${encodeURIComponent(destination)}&type=${encodeURIComponent(type)}&min=${min || 0}&max=${max || 99999}&people=${people}`
+  );
 
   const { dispatch } = useContext(SearchContext);
   const handleClick = () => {
@@ -45,9 +50,9 @@ const Hotels = () => {
 
 
   return (
-    <div className="searchHotelsPage">
+    <div className="searchHotelsPage pageShell">
       <Navbar />
-      <Header type="list" />
+      <Header type="list" activeTab="stays" />
       <div className="listContainer">
         <div className="listWrapper">
           <div className="listSearch">
@@ -56,7 +61,7 @@ const Hotels = () => {
               <label>Destination</label>
               <input value={destination} type="text" onChange={(e) => setDestination(e.target.value)} />
             </div>
-            <div className="lsItem">
+            <div className="lsItem lsItem--dates">
               <label>Check-in Date</label>
               <span className="dateInput" onClick={() => setOpenDate(!openDate)}>{`${format(
                 dates[0].startDate,
@@ -64,11 +69,18 @@ const Hotels = () => {
               )} to ${format(dates[0].endDate, "dd/MM/yyyy")}`}
               </span>
               {openDate && (
-                <DateRange
-                  onChange={(item) => setDates([item.selection])}
-                  minDate={new Date()}
-                  ranges={dates}
-                />
+                <div className="lsDateRangeWrap">
+                  <DateRange
+                    onChange={(item) => setDates([item.selection])}
+                    minDate={new Date()}
+                    ranges={dates}
+                    months={1}
+                    direction="vertical"
+                    showDateDisplay={false}
+                    rangeColors={["#003580"]}
+                    className="lsDateRangePicker"
+                  />
+                </div>
               )}
             </div>
             <div className="lsItem">
@@ -87,33 +99,13 @@ const Hotels = () => {
                   <input type="number" className="lsOptionInput" onChange={(e) => setMax(e.target.value)} value={`${max}`} />
                 </div>
                 <div className="lsOptionItem">
-                  <span className="lsOptionText">Adult</span>
+                  <span className="lsOptionText">People</span>
                   <input
                     type="number"
                     min={1}
                     className="lsOptionInput"
-                    value={options.adults}
-                    onChange={(e) => handleOptions('adults', e.target.value)}
-                  />
-                </div>
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">Children</span>
-                  <input
-                    type="number"
-                    min={0}
-                    className="lsOptionInput"
-                    value={options.children}
-                    onChange={(e) => handleOptions('children', e.target.value)}
-                  />
-                </div>
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">Room</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className="lsOptionInput"
-                    value={options.rooms}
-                    onChange={(e) => handleOptions('rooms', e.target.value)}
+                    value={options.people}
+                    onChange={(e) => handlePeopleChange(e.target.value)}
                   />
                 </div>
               </div>
@@ -126,12 +118,19 @@ const Hotels = () => {
               !error && loading ? <h1>Loading...</h1> :
                 <div>
                   {type && <h1 style={{margin:"0", marginBottom:"8px", padding:"0"}} className="lsTitle">Type : {type }</h1>}
+                  {!loading && !error && data.length === 0 && (
+                    <p className="lsEmptyHint">
+                      No hotels in this search can host {people} {people === 1 ? "person" : "people"} in one property. Try
+                      another city or fewer guests.
+                    </p>
+                  )}
                   {data.map(data => (<SearchItems data={data} key={data._id} />))}
                 </div>
             }
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

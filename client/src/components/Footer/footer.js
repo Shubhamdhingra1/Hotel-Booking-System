@@ -1,51 +1,91 @@
-import './footer.css'
+import { Link } from "react-router-dom";
+import "./footer.css";
+
+const defaultDates = () => [
+  { startDate: new Date(), endDate: new Date(), key: "selection" },
+];
+
+const defaultOptions = { people: 1 };
+
+const hotelSearch = (destination, type = "") => ({
+  destination,
+  type,
+  dates: defaultDates(),
+  options: defaultOptions,
+});
+
 const Footer = () => {
   return (
     <div className="footer">
       <div className="fLists">
         <ul className="fList">
-          <li className="fListItem">Countries</li>
-          <li className="fListItem">Regions</li>
-          <li className="fListItem">Cities</li>
-          <li className="fListItem">Districts</li>
-          <li className="fListItem">Airports</li>
-          <li className="fListItem">Hotels</li>
+          <li className="fListHeading">Stays</li>
+          <li>
+            <Link className="fListItem" to="/">
+              Search stays
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/hotels" state={hotelSearch("Delhi")}>
+              Hotels in Delhi
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/hotels" state={hotelSearch("Mumbai")}>
+              Hotels in Mumbai
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/hotels" state={hotelSearch("Bangalore")}>
+              Hotels in Bangalore
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/hotels" state={hotelSearch("", "apartment")}>
+              Apartments
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/#featured-hotels">
+              Featured properties
+            </Link>
+          </li>
         </ul>
         <ul className="fList">
-          <li className="fListItem">Homes </li>
-          <li className="fListItem">Apartments </li>
-          <li className="fListItem">Resorts </li>
-          <li className="fListItem">Villas</li>
-          <li className="fListItem">Hostels</li>
-          <li className="fListItem">Guest houses</li>
+          <li className="fListHeading">Travel</li>
+          <li>
+            <Link className="fListItem" to="/flights">
+              Flights
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/car-rentals">
+              Car rentals
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/flights/list" state={{ from: "Delhi", to: "Mumbai" }}>
+              Delhi → Mumbai flights
+            </Link>
+          </li>
         </ul>
         <ul className="fList">
-          <li className="fListItem">Unique places to stay </li>
-          <li className="fListItem">Reviews</li>
-          <li className="fListItem">Unpacked: Travel articles </li>
-          <li className="fListItem">Travel communities </li>
-          <li className="fListItem">Seasonal and holiday deals </li>
-        </ul>
-        <ul className="fList">
-          <li className="fListItem">Car rental </li>
-          <li className="fListItem">Flight Finder</li>
-          <li className="fListItem">Restaurant reservations </li>
-          <li className="fListItem">Travel Agents </li>
-        </ul>
-        <ul className="fList">
-          <li className="fListItem">Curtomer Service</li>
-          <li className="fListItem">Partner Help</li>
-          <li className="fListItem">Careers</li>
-          <li className="fListItem">Sustainability</li>
-          <li className="fListItem">Press center</li>
-          <li className="fListItem">Safety Resource Center</li>
-          <li className="fListItem">Investor relations</li>
-          <li className="fListItem">Terms & conditions</li>
+          <li className="fListHeading">Account</li>
+          <li>
+            <Link className="fListItem" to="/login">
+              Sign in
+            </Link>
+          </li>
+          <li>
+            <Link className="fListItem" to="/signUp">
+              Register
+            </Link>
+          </li>
         </ul>
       </div>
-      <div className="fText">Copyright © Priyansh Sahu</div>
+      <div className="fText">Copyright © Shubham Dhingra</div>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

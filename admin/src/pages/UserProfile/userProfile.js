@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './userProfile.css'
-import axios from 'axios';
+import { httpClient } from '../../shared/api/httpClient';
 import { useNavigate, useParams } from 'react-router-dom';
 import { baseURL } from '../../baseURL/baseURL';
 import useFetch from '../../hooks/useFetch';
@@ -10,7 +10,7 @@ const UserProfile = () => {
     const [userInfo, setUserInfo] = useState({});
     const { id } = useParams();
 
-    const { data } = useFetch(`${baseURL}/user/userInfo/${localStorage.getItem("access_token")}/${id}`)
+    const { data } = useFetch(`${baseURL}/user/profile/${id}`)
     useEffect(() => {
         setUserInfo(data);
     }, [data])
@@ -18,9 +18,7 @@ const UserProfile = () => {
     const navigate = useNavigate();
     const handleProfileDelete = async () => {
         try {
-            await axios.delete(`${baseURL}/user/${localStorage.getItem("access_token")}/${id}`,
-                userInfo
-            );
+            await httpClient.delete(`/user/profile/${id}`);
             console.log("Deleted successfully");
             navigate('/');
         } catch (error) {

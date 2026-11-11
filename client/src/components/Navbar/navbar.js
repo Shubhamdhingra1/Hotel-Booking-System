@@ -4,16 +4,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/authContext';
 import { baseURL } from '../../baseURL/baseURL';
 import useFetch from '../../hooks/useFetch';
+import { clearAccessToken } from '../../shared/auth/tokenStorage';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useContext(AuthContext);
-  const { data, error } = useFetch(`${baseURL}/user/userInfo/${localStorage.getItem("access_token")}/${user?._id}`);
+  const profileUrl = user?._id ? `${baseURL}/user/profile/${user._id}` : null;
+  const { data, error } = useFetch(profileUrl);
   // console.log(error);
   // console.log(user);
   if (error || !user) {
     dispatch({ type: "LOGOUT" });
-    localStorage.setItem("access_token", null);
+    clearAccessToken();
     navigate('/login');
     return;
   }

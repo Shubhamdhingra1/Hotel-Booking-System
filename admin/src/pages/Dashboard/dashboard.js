@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { baseURL } from '../../baseURL/baseURL';
+import { httpClient } from '../../shared/api/httpClient';
 import Header from '../../components/Header/header';
 import Navbar from '../../components/Navbar/navbar';
 import './dashboard.css';
@@ -7,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-
   const [newUsers, setNewUsers] = useState();
   const [totalUsers, setTotalUsers] = useState();
   const [newHotels, setNewHotels] = useState();
@@ -16,28 +14,25 @@ const Dashboard = () => {
 
   const getData = async () => {
     try {
-      const newUsers = await axios.get(`${baseURL}/user/newusers/${localStorage.getItem('access_token')}`);
-      const totalUsers = await axios.get(`${baseURL}/user/totalusers/${localStorage.getItem('access_token')}`);
-      const bookingCount = await axios.get(`${baseURL}/room/bookings/token/${localStorage.getItem('access_token')}`);
-      const totalHotels = await axios.get(`${baseURL}/hotel/${localStorage.getItem('access_token')}/totalHotels`);
-      const newHotels = await axios.get(`${baseURL}/hotel/${localStorage.getItem('access_token')}/newHotels`);
+      const [newUsersRes, totalUsersRes, bookingRes, totalHotelsRes, newHotelsRes] =
+        await Promise.all([
+          httpClient.get("/user/metrics/newusers"),
+          httpClient.get("/user/metrics/totalusers"),
+          httpClient.get("/room/metrics/bookings"),
+          httpClient.get("/hotel/metrics/totalHotels"),
+          httpClient.get("/hotel/metrics/newHotels"),
+        ]);
 
-      setNewUsers(await newUsers.data.count);
-      setTotalUsers(await totalUsers.data.count);
-      setNewHotels(await newHotels.data.count);
-      setTotalHotels(await totalHotels.data.count);
-      setBookingCount(await bookingCount.data.count);
-
-      // console.log("newUsers = ", await newUsers.data.count);
-      // console.log("totalUsers = ", await totalUsers.data.count);
-      // console.log("bookingCount = ", await bookingCount.data.count);
-      // console.log("newHotels = ", await newHotels.data.count);
-      // console.log("totalHotels = ", await totalHotels.data.count);
-
+      setNewUsers(newUsersRes.data.count);
+      setTotalUsers(totalUsersRes.data.count);
+      setBookingCount(bookingRes.data.count);
+      setTotalHotels(totalHotelsRes.data.count);
+      setNewHotels(newHotelsRes.data.count);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -45,7 +40,8 @@ const Dashboard = () => {
   const [openCreateHotel, setOpenCreateHotel] = useState(false);
   const handleOpen = () => {
     setOpenCreateHotel(!openCreateHotel);
-  }
+  };
+
   return (
     <div>
       <Navbar />
@@ -53,6 +49,9 @@ const Dashboard = () => {
       <div className="container">
         <Link to='/create-hotel' className='btn-container'>
           <button className="create-hotel-btn" onClick={() => handleOpen()}>Create new Hotel</button>
+        </Link>
+        <Link to='/car-listings' className='btn-container'>
+          <button type="button" className="create-hotel-btn">Review car listings</button>
         </Link>
 
         <div className="dashboard-container">
@@ -82,8 +81,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-
     </div>
   )
 }

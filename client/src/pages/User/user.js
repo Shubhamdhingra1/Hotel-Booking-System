@@ -1,17 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
+import {
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_UPLOAD_PRESET,
+  cloudinaryUploadUrl,
+} from '../../shared/upload/cloudinaryConfig';
 import axios from 'axios';
 import './user.css';
 import { AuthContext } from '../../Context/authContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { baseURL } from '../../baseURL/baseURL';
 import useFetch from '../../hooks/useFetch';
+import { clearAccessToken } from '../../shared/auth/tokenStorage';
+import { updateUserProfile } from '../../features/users/userApi';
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({});
   const { id } = useParams();
 
   const { dispatch } = useContext(AuthContext);
-  const { data } = useFetch(`${baseURL}/user/userInfo/${localStorage.getItem("access_token")}/${id}`)
+  const { data } = useFetch(`${baseURL}/user/profile/${id}`);
   useEffect(() => {
     setUserInfo(data);
   }, [data])
@@ -31,12 +38,9 @@ const UserProfile = () => {
     try {
       const data = new FormData();
       data.append("file", file);
-      data.append("upload_preset", "HotelBook.com");
-      data.append("cloud_name", "dox9ptswj");
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dox9ptswj/image/upload",
-        data
-      );
+      data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
+      const uploadRes = await axios.post(cloudinaryUploadUrl("image"), data);
 
       const { url } = await uploadRes.data;
       console.log(url);
@@ -52,21 +56,23 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
-    localStorage.setItem("access_token", null);
+    clearAccessToken();
     navigate("/login");
   };
 
+  const [updateStatus, setUpdateStatus] = useState("idle");
+
   const handleProfileUpdate = async () => {
-    dispatch({ type: "LOGIN_START" });
+    setUpdateStatus("loading");
     try {
-      const response = await axios.patch(`${baseURL}/user/${localStorage.getItem("access_token")}/${id}`,
-        userInfo
-      );
-      console.log(response.data);
+      const response = await updateUserProfile(id, userInfo);
       dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
-      console.log("Updated successfully");
+      setUpdateStatus("success");
+      setTimeout(() => setUpdateStatus("idle"), 3500);
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      console.error("Error updating user profile:", error);
+      setUpdateStatus("error");
+      setTimeout(() => setUpdateStatus("idle"), 4000);
     }
   };
 
@@ -107,8 +113,27 @@ const UserProfile = () => {
               <input className='profile-info-input' value={userInfo?.phone} onChange={handleChange} placeholder='Enter phone number' name='phone' id='phone' type='number' />
             </form>
 
-            <button className='profile-info-update-btn' onClick={handleProfileUpdate}>Update Profile</button>
-            <button className='logout-btn' onClick={handleLogout}>Logout</button>
+            {updateStatus === "success" && (
+              <p className="profile-update-status profile-update-status--success" role="status">
+                Profile updated successfully
+              </p>
+            )}
+            {updateStatus === "error" && (
+              <p className="profile-update-status profile-update-status--error" role="alert">
+                Could not update profile. Please try again.
+              </p>
+            )}
+            <button
+              type="button"
+              className="profile-info-update-btn"
+              onClick={handleProfileUpdate}
+              disabled={updateStatus === "loading"}
+            >
+              {updateStatus === "loading" ? "Updating profile…" : "Update Profile"}
+            </button>
+            <button type="button" className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </div>
       </div>

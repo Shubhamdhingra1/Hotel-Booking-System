@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { httpClient, toApiPath } from "../shared/api/httpClient";
 
 const useFetch = (url) => {
     const [data, setData] = useState([]);
@@ -7,30 +7,32 @@ const useFetch = (url) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
+        if (!url) {
+            setLoading(false);
+            return;
+        }
         const fetchData = async () => {
             try {
-                const response = await axios.get(url);
-                const data = await response.data;
-                setData(data);
+                const response = await httpClient.get(toApiPath(url));
+                setData(response.data);
                 setLoading(false);
-            } catch (error) {
+            } catch (err) {
                 setLoading(false);
-                setError(error);
+                setError(err);
             }
         };
         fetchData();
     }, [url]);
 
-
     const reFetch = async () => {
+        if (!url) return;
         try {
-            const response = await axios.get(url);
-            const data = await response.data;
-            setData(data);
+            const response = await httpClient.get(toApiPath(url));
+            setData(response.data);
             setLoading(false);
-        } catch (error) {
+        } catch (err) {
             setLoading(false);
-            setError(error);
+            setError(err);
         }
     };
 

@@ -1,0 +1,27 @@
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #1a1630;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Sticky footer: main content grows; footer sits at the bottom on short pages */
+.pageShell {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

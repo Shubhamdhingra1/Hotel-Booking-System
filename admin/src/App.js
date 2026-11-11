@@ -8,6 +8,7 @@ import Update from './pages/Update/update'
 import CreateHotel from './pages/CreateHotel/createHotel'
 import AdminProfile from './pages/AdminProfile/adminProfile'
 import UserProfile from './pages/UserProfile/userProfile'
+import CarListings from './pages/CarListings/carListings'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
 
         <Route path="/hotels" element={<Hotels />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/car-listings" element={<CarListings />} />
         
         <Route path="/create-hotel" element={<CreateHotel />} />
         <Route path="/admin/:id" element={<AdminProfile />} />

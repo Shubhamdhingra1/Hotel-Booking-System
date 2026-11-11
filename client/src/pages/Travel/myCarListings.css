@@ -1,0 +1,63 @@
+.myCarListingsMain {
+  max-width: 800px;
+}
+
+.myCarListingsList {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+
+.myCarListingCard {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.myCarListingHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.myCarStatus {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #eee;
+}
+
+.myCarStatus-approved {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.myCarStatus-pending {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.myCarStatus-needs_reapproval,
+.myCarStatus-expired {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.myCarStatus-rejected {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.myCarBooked {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.myCarAdminNote {
+  font-size: 0.9rem;
+  color: #b71c1c;
+}

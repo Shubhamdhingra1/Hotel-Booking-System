@@ -1,0 +1,351 @@
+.listYourCarPage {
+  min-height: 100vh;
+  background: linear-gradient(165deg, #e8eef7 0%, #f8fafc 40%, #f1f5f9 100%);
+}
+
+.listYourCarMain {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.listYourCarHero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.listYourCarHero h1 {
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  margin: 0 0 0.5rem;
+  color: #0f172a;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.listYourCarIntro {
+  color: #64748b;
+  margin: 0 auto;
+  max-width: 540px;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.listYourCarSteps {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.listYourCarStep {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.listYourCarForm {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.listYourCarSection {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.listYourCarSection:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+}
+
+.listYourCarSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.listYourCarSectionSub {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.listYourCarForm label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 1rem;
+}
+
+.listYourCarForm input,
+.listYourCarForm select,
+.listYourCarForm textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font: inherit;
+  color: #0f172a;
+  background: #fafbfc;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.listYourCarForm input:focus,
+.listYourCarForm select:focus,
+.listYourCarForm textarea:focus {
+  outline: none;
+  border-color: #003580;
+  box-shadow: 0 0 0 3px rgba(0, 53, 128, 0.12);
+  background: #fff;
+}
+
+.listYourCarRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 560px) {
+  .listYourCarRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.listYourCarDateRange {
+  margin-bottom: 0.5rem;
+}
+
+.listYourCarDateRange > label {
+  margin-bottom: 0.5rem;
+}
+
+.listYourCarDateRange .dateInput {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #fafbfc;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.listYourCarSubmit {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: linear-gradient(135deg, #003580 0%, #002a66 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 53, 128, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.listYourCarSubmit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.listYourCarSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.listYourCarMsg {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.listYourCarMsg.ok {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.listYourCarMsg.err {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.listYourCarFooterLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.listYourCarLink {
+  font-size: 0.9rem;
+  color: #003580;
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.listYourCarLink:hover {
+  text-decoration: underline;
+}
+
+.listYourCarUploadBlock {
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+}
+
+.listYourCarUploadBlock h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.listYourCarFileInput {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.listYourCarUploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid #003580;
+  background: #fff;
+  color: #003580;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.listYourCarUploadBtn:hover:not(:disabled) {
+  background: #eff6ff;
+}
+
+.listYourCarUploadBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listYourCarUploadHint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0.5rem 0 0;
+  line-height: 1.45;
+}
+
+.listYourCarPreviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.listYourCarPreviewItem {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.listYourCarPreviewItem img {
+  width: 100%;
+  height: 88px;
+  object-fit: cover;
+  display: block;
+}
+
+.listYourCarPreviewItem button {
+  width: 100%;
+  padding: 6px;
+  font-size: 0.7rem;
+  border: none;
+  background: #f8fafc;
+  color: #b91c1c;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.listYourCarDocList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.listYourCarDocList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 6px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.875rem;
+}
+
+.listYourCarDocList a {
+  color: #003580;
+  font-weight: 500;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.listYourCarDocList a:hover {
+  text-decoration: underline;
+}
+
+.listYourCarDocList button {
+  flex-shrink: 0;
+  border: none;
+  background: #fef2f2;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+}

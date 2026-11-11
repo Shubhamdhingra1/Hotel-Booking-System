@@ -1,8 +1,12 @@
 .footer {
   width: 100%;
   padding-top: 20px;
+  padding-bottom: 16px;
   font-size: 12px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-top: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .fLists {
@@ -23,10 +27,26 @@
   padding: 0;
 }
 
+.fListHeading {
+  margin-bottom: 12px;
+  color: wheat;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .fListItem {
+  display: inline-block;
   margin-bottom: 10px;
   color: #ffffff;
   cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.fListItem:hover {
+  color: wheat;
 }
 
 .fText {

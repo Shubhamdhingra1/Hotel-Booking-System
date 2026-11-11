@@ -12,6 +12,7 @@ import { SearchContext } from '../../Context/searchContext';
 import { AuthContext } from '../../Context/authContext';
 import Reserve from '../../components/Reserve/reserve';
 import { baseURL } from '../../baseURL/baseURL';
+import { normalizeSearchOptions } from '../../utils/searchOptions';
 
 const Hotel = () => {
   const location = useLocation();
@@ -26,7 +27,7 @@ const Hotel = () => {
 
   const { dates, options } = useContext(SearchContext);
   // console.log(dates);
-  const rooms = options.rooms || 1;
+  const people = normalizeSearchOptions(options).people;
 
   const MILISECONDS_PER_DAY = 60 * 60 * 24 * 1000;
   function dayDifference(date1, date2) {
@@ -64,7 +65,7 @@ const Hotel = () => {
     }
   };
   return (
-    <div className='hotelPage'>
+    <div className="hotelPage pageShell">
       {open && (
         <div className="slider">
           <AiOutlineCloseCircle
@@ -98,7 +99,7 @@ const Hotel = () => {
             Excellent location – {data.distance}
           </span>
           <span className="hotelPriceHighlight">
-            Book a stay over ₹{data.cheapestPrice} per night at this property and get a free airport taxi
+            Book a stay over ₹{data.cheapestPrice} per night at this property and get rewarded for your travels
           </span>
           <div className="hotelImages">
             {data.photos?.slice(0,6).map((photo, i) => (
@@ -124,7 +125,7 @@ const Hotel = () => {
                 excellent location <b>rating of {data.rating}!</b>
               </span>
               <h2>
-                <b>₹{data.cheapestPrice * nights * rooms}</b> ({nights} nights, {rooms} rooms)
+                <b>₹{data.cheapestPrice * nights}</b> ({nights} nights, {people} {people === 1 ? "person" : "people"})
               </h2>
               <button onClick={handleClick}>Reserve or Book Now!</button>
             </div>

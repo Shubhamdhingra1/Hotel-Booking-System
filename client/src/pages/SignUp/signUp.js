@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
 import './signUp.css';
 import axios from 'axios';
-import { baseURL } from '../../baseURL/baseURL';
+import { registerAccount } from '../../features/users/userApi';
+import { completeAuthSession } from '../../shared/auth/session';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/authContext';
 import { FcGoogle } from "react-icons/fc";
@@ -45,7 +46,7 @@ const SignUp = () => {
                 console.log(result)
                 dispatch({ type: 'LOGIN_START' });
                 try {
-                    const res = await axios.post(`${baseURL}/auth/register`, {
+                    const res = await registerAccount({
                         username: uniqueUsername,
                         email: result.user.email,
                         password: result.user.uid,
@@ -53,15 +54,9 @@ const SignUp = () => {
                         name: result.user.displayName
                     });
 
-                    if (res.data !== undefined && res.data?.success) {
-                        localStorage.setItem('access_token', res.data?.access_token);
-                        try {
-                            const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data?.access_token}/${res.data?.userId}`);
-                            dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo?.data });
-                            navigate('/');
-                        } catch (error) {
-                            console.log(error);
-                        }
+                    if (res.data?.success) {
+                        await completeAuthSession(dispatch, res.data.access_token, res.data.userId);
+                        navigate('/');
                     }
                     navigate('/');
                 } catch (error) {
@@ -80,17 +75,11 @@ const SignUp = () => {
         dispatch({ type: 'LOGIN_START' });
         try {
 
-            const res = await axios.post(`${baseURL}/auth/register`, signupData);
+            const res = await registerAccount(signupData);
 
-            if (res.data !== undefined && res.data?.success) {
-                localStorage.setItem('access_token', res.data?.access_token);
-                try {
-                    const userInfo = await axios.get(`${baseURL}/user/userInfo/${res.data?.access_token}/${res.data?.userId}`);
-                    dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo?.data });
-                    navigate('/');
-                } catch (error) {
-                    console.log(error);
-                }
+            if (res.data?.success) {
+                await completeAuthSession(dispatch, res.data.access_token, res.data.userId);
+                navigate('/');
             }
             navigate('/');
         } catch (error) {

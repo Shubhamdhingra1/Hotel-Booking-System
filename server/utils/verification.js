@@ -1,12 +1,17 @@
 import jwt from "jsonwebtoken";
 import { createError } from "./createError.js";
+import { extractAccessToken } from "../middleware/extractToken.js";
 
+/** Authenticates request using JWT from Authorization: Bearer header only. */
 export const verifyToken = (req, res, next) => {
-    // console.log("verifyToken : ",req);
-    const token = req.params.access_token;
+    const token = extractAccessToken(req);
 
-    if (!token)
-        return res.status(401).json({ error: "Unauthorized" });
+    if (!token) {
+        return res.status(401).json({
+            error: "Unauthorized",
+            message: "Missing Authorization: Bearer <token> header",
+        });
+    }
 
 
     try {
@@ -20,18 +25,20 @@ export const verifyToken = (req, res, next) => {
 
 }
 
+/** Ensures the logged-in user matches :id in the route (or is admin). */
 export const verifyUser = (req, res, next) => {
-    // console.log("from verifyUser : ", req.user);
     verifyToken(req, res, () => {
-        // console.log("req from verifyUesr :::: ",req.user);
-        // console.log('verifyUesr')
-        if (req.user.id === req.params.id || req.user.isAdmin) {
+        const routeUserId = req.params.id;
+        if (String(req.user.id) === String(routeUserId) || req.user.isAdmin) {
             next();
         } else {
             return next(createError(403, "Unauthorized"));
         }
     });
 };
+
+/** Same as verifyUser but only checks JWT (for routes without :id). */
+export const verifyAuthenticated = verifyToken;
 
 export const verifyAdmin = (req, res, next) => {
     verifyToken(req, res, () => {

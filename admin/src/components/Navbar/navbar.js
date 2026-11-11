@@ -1,38 +1,50 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import './navbar.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/authContext';
-import { baseURL } from '../../baseURL/baseURL';
-import useFetch from '../../hooks/useFetch';
+import { clearAccessToken } from '../../shared/auth/tokenStorage';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useContext(AuthContext);
-  const { data, error } = useFetch(`${baseURL}/user/userInfo/${localStorage.getItem("access_token")}/${user?._id}`);
-  // console.log(error);
-  // console.log(user);
-  if (!user?.isAdmin ||error || !user) {
-    dispatch({ type: "LOGOUT" });
-    localStorage.setItem("access_token", null);
-    navigate('/login');
-    return;
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    if (!user.isAdmin) {
+      clearAccessToken();
+      dispatch({ type: "LOGOUT" });
+      navigate('/login', { replace: true });
+    }
+  }, [user, dispatch, navigate]);
+
+  if (!user?.isAdmin) {
+    return null;
   }
+
+  const profilePicture = user.profilePicture;
+  const userId = user._id;
+
   return (
     <div className='navbar'>
       <div className='navbarContainer'>
         <Link to='/' className='logo'>HotelBook.com</Link>
         <div className='navItems'>
-          {error && <>
-            <Link to='/signUp' className='navButton'>Register</Link>
-            <Link to='/login' className='navButton'>Login</Link>
-          </>
-          }
-          {data && !error && <Link to={`/admin/${data._id}`} className='navButton-userLogo'>
-            <img
-              className='userLogoButton'
-              src={data.profilePicture}
-              alt='' />
-          </Link>}
+          {userId && (
+            <Link to={`/admin/${userId}`} className='navButton-userLogo'>
+              {profilePicture ? (
+                <img
+                  className='userLogoButton'
+                  src={profilePicture}
+                  alt=''
+                />
+              ) : (
+                <span className='navButton'>Profile</span>
+              )}
+            </Link>
+          )}
         </div>
       </div>
     </div>

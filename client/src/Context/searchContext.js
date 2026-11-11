@@ -9,9 +9,7 @@ const INITIAL_STATE =  {
         startDate: new Date()
     }],
     options: {
-        adults: undefined,
-        children: undefined,
-        rooms: undefined
+        people: 1,
     },
 };
 
