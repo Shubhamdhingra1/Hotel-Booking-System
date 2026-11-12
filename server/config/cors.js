@@ -1,6 +1,6 @@
 const LOCAL_ORIGINS = ["http://localhost:3000", "http://localhost:3001"];
 
-/** Comma-separated extra origins in CORS_ORIGINS (e.g. deployed client URLs). */
+/** Comma-separated origins when not using open CORS. */
 export function getAllowedCorsOrigins() {
     const fromEnv = (process.env.CORS_ORIGINS ?? "")
         .split(",")
@@ -10,7 +10,22 @@ export function getAllowedCorsOrigins() {
     return [...new Set([...LOCAL_ORIGINS, ...fromEnv])];
 }
 
+function useOpenCors() {
+    const flag = process.env.CORS_ALLOW_ALL?.trim().toLowerCase();
+    if (flag === "true" || flag === "1") return true;
+    if (process.env.CORS_ORIGINS?.trim() === "*") return true;
+    return false;
+}
+
 export function buildCorsOptions() {
+    if (useOpenCors()) {
+        return {
+            origin: true,
+            credentials: true,
+            optionsSuccessStatus: 200,
+        };
+    }
+
     const allowedOrigins = getAllowedCorsOrigins();
 
     return {
