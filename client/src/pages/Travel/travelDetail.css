@@ -198,6 +198,12 @@
   border-left: 4px solid #003580;
 }
 
+.travelDetailSeatMapTitle {
+  margin: 1.25rem 0 0;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
 .travelDetailPickup h3 {
   margin: 0 0 0.5rem;
   font-size: 0.9rem;

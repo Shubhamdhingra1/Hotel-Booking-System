@@ -3,6 +3,7 @@ import CarRental from "../models/carRental.js";
 import ServiceBooking from "../models/serviceBooking.js";
 import { createError } from "../utils/createError.js";
 import { assertCarBookable, blockCarRentalNights } from "./carBookingService.js";
+import { blockFlightSeats } from "./flightBookingService.js";
 import { getRentalNightTimestamps } from "../utils/carAvailability.js";
 
 const modelByType = {
@@ -20,6 +21,7 @@ export async function createTravelBooking(payload, userId) {
         startDate,
         endDate,
         passengers,
+        selectedSeats = [],
     } = payload;
 
     const Model = modelByType[serviceType];
@@ -32,13 +34,11 @@ export async function createTravelBooking(payload, userId) {
         throw createError(404, "Item not found");
     }
 
-    if (serviceType === "flight" && item.seatsAvailable < passengers) {
-        throw createError(400, "Not enough seats available");
-    }
-
     if (serviceType === "flight") {
-        item.seatsAvailable -= passengers;
-        await item.save();
+        if (!selectedSeats.length || selectedSeats.length !== passengers) {
+            throw createError(400, "One seat must be selected per passenger");
+        }
+        await blockFlightSeats(itemId, selectedSeats);
     }
 
     if (serviceType === "car") {
@@ -59,6 +59,7 @@ export async function createTravelBooking(payload, userId) {
         startDate,
         endDate,
         passengers,
+        selectedSeats: serviceType === "flight" ? selectedSeats : [],
     });
 
     return booking;

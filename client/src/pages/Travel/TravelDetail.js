@@ -21,6 +21,7 @@ import {
   getCarListingBounds,
   isCarRentalRangeAvailable,
 } from "../../utils/carRentalAvailability";
+import FlightSeatMap from "../../components/Travel/FlightSeatMap/FlightSeatMap";
 import "./travelDetail.css";
 
 function buildInitialRentalDates(initialDates) {
@@ -50,7 +51,7 @@ const TravelDetail = ({ serviceKey }) => {
   const [showPayment, setShowPayment] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [passengers, setPassengers] = useState(location.state?.passengers || 1);
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [heroImage, setHeroImage] = useState(null);
   const [activeGallery, setActiveGallery] = useState(null);
 
@@ -117,11 +118,24 @@ const TravelDetail = ({ serviceKey }) => {
 
   const unitPrice =
     serviceKey === "cars" ? data?.pricePerDay || 0 : data?.price || 0;
+  const flightPassengers = selectedSeats.length || 0;
+
   const totalAmount = useMemo(() => {
     if (serviceKey === "cars") return unitPrice * rentalDays;
-    if (serviceKey === "flights") return unitPrice * passengers;
+    if (serviceKey === "flights") return unitPrice * selectedSeats.length;
     return unitPrice;
-  }, [serviceKey, unitPrice, rentalDays, passengers]);
+  }, [serviceKey, unitPrice, rentalDays, selectedSeats.length]);
+
+  const handleSeatToggle = (seatId) => {
+    setSelectedSeats((prev) =>
+      prev.includes(seatId) ? prev.filter((s) => s !== seatId) : [...prev, seatId]
+    );
+  };
+
+  const seatsLeft =
+    serviceKey === "flights"
+      ? data?.seatMap?.seatsAvailable ?? data?.seatsAvailable
+      : null;
 
   const title = useMemo(() => {
     if (!data) return "";
@@ -139,6 +153,10 @@ const TravelDetail = ({ serviceKey }) => {
     }
     if (serviceKey === "cars" && !carAvailable) {
       window.alert("This car is not available for the dates you selected. Go back and pick other dates.");
+      return;
+    }
+    if (serviceKey === "flights" && selectedSeats.length === 0) {
+      window.alert("Please select at least one seat on the map before booking.");
       return;
     }
     setShowPayment(true);
@@ -164,7 +182,8 @@ const TravelDetail = ({ serviceKey }) => {
       itemId: id,
       title,
       totalPrice: totalAmount,
-      passengers: serviceKey === "flights" ? passengers : 1,
+      passengers: serviceKey === "flights" ? selectedSeats.length : 1,
+      selectedSeats: serviceKey === "flights" ? selectedSeats : undefined,
       startDate,
       endDate,
     });
@@ -254,9 +273,19 @@ const TravelDetail = ({ serviceKey }) => {
                 <strong>Class:</strong> {data.travelClass}
               </li>
               <li>
-                <strong>Seats left:</strong> {data.seatsAvailable}
+                <strong>Seats left:</strong> {seatsLeft}
               </li>
             </ul>
+          )}
+          {serviceKey === "flights" && (
+            <>
+              <h3 className="travelDetailSeatMapTitle">Choose your seats</h3>
+              <FlightSeatMap
+                seatMap={data.seatMap}
+                selectedSeats={selectedSeats}
+                onToggle={handleSeatToggle}
+              />
+            </>
           )}
           {serviceKey === "cars" && (
             <>
@@ -372,16 +401,10 @@ const TravelDetail = ({ serviceKey }) => {
             <span className="travelDetailPrice">₹{unitPrice.toLocaleString("en-IN")}</span>
             <span className="travelDetailPriceHint">{service.priceLabel}</span>
             {serviceKey === "flights" && (
-              <label className="travelDetailPassengers">
-                Passengers
-                <input
-                  type="number"
-                  min={1}
-                  max={data.seatsAvailable}
-                  value={passengers}
-                  onChange={(e) => setPassengers(Number(e.target.value))}
-                />
-              </label>
+              <div className="travelDetailSummaryRow">
+                <span>Seats selected</span>
+                <span>{flightPassengers || "—"}</span>
+              </div>
             )}
             {serviceKey === "cars" && (
               <>
@@ -407,8 +430,9 @@ const TravelDetail = ({ serviceKey }) => {
               className="travelDetailBtn"
               onClick={handleBook}
               disabled={
-                serviceKey === "cars" &&
-                (!carAvailable || listingBounds?.noSelectableDays)
+                (serviceKey === "cars" &&
+                  (!carAvailable || listingBounds?.noSelectableDays)) ||
+                (serviceKey === "flights" && flightPassengers === 0)
               }
             >
               {service.bookLabel}
@@ -423,14 +447,18 @@ const TravelDetail = ({ serviceKey }) => {
           durationValue={serviceKey === "cars" ? rentalDays : undefined}
           durationLabel="Rental days"
           showDurationRow={serviceKey === "cars"}
-          selectedCount={serviceKey === "flights" ? passengers : 1}
+          selectedCount={serviceKey === "flights" ? flightPassengers : 1}
           totalAmount={totalAmount}
           isProcessing={isProcessing}
           summaryLines={
-            serviceKey === "cars" ? [{ label: "Daily rate", value: `₹${unitPrice}` }] : []
+            serviceKey === "cars"
+              ? [{ label: "Daily rate", value: `₹${unitPrice}` }]
+              : serviceKey === "flights" && selectedSeats.length
+                ? [{ label: "Seats", value: selectedSeats.join(", ") }]
+                : []
           }
           showCountRow={serviceKey === "flights"}
-          countLabel="Passengers"
+          countLabel="Seats"
           backLabel={
             serviceKey === "cars"
               ? "Back to vehicle"

@@ -1,4 +1,5 @@
 import Flight from "../models/flight.js";
+import { initialFlightSeatFields } from "../services/flightSeatInventory.js";
 import CarRental from "../models/carRental.js";
 
 const IMG_PLANE =
@@ -103,7 +104,7 @@ const buildFlights = () => {
                 arriveAt: tpl.arriveAt,
                 duration: tpl.duration,
                 price: tpl.basePrice + cityIndex * 150,
-                seatsAvailable: 18 + i * 2,
+                ...initialFlightSeatFields(36),
                 travelClass: tpl.travelClass,
                 image: IMG_PLANE,
                 rating: 4.1 + i * 0.1,

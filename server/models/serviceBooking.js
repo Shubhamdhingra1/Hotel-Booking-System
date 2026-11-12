@@ -14,6 +14,7 @@ const ServiceBookingSchema = new mongoose.Schema(
         startDate: { type: Date },
         endDate: { type: Date },
         passengers: { type: Number, default: 1 },
+        selectedSeats: { type: [String], default: [] },
         status: { type: String, default: "confirmed" },
     },
     { timestamps: true }

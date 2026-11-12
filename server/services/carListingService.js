@@ -1,6 +1,6 @@
 import CarRental from "../models/carRental.js";
 import { createError } from "../utils/createError.js";
-import { startOfToday } from "../utils/carAvailability.js";
+import { hasBookableRentalDays, startOfToday } from "../utils/carAvailability.js";
 import { normalizeListingDocuments, normalizeListingImages } from "../utils/listingFiles.js";
 import { serializeCarListing } from "../utils/serializeListing.js";
 
@@ -192,6 +192,7 @@ export async function getCarForPublicView(carId) {
         car.listFrom <= today &&
         car.listUntil >= today;
 
-    if (fleetOk || peerOk) return car;
-    return null;
+    if (!(fleetOk || peerOk)) return null;
+    if (!hasBookableRentalDays(car)) return null;
+    return car;
 }

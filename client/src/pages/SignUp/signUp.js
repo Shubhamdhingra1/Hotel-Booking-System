@@ -91,7 +91,7 @@ const SignUp = () => {
     return (
         <div className='signup-container'>
             <div className='signup-box'>
-                <p className='signup-title'>Create new account</p>
+                <p className='signup-title'>Sign Up</p>
                 <form className='signup-form' onSubmit={(e) => { e.preventDefault(); handleSignup()}}>
                     <label className='signup-label' htmlFor='username'>
                         Username

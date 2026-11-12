@@ -82,7 +82,7 @@ const Login = () => {
                     <FcGoogle />
                     Sign in with Google
                 </button>
-                <Link to='/signUp' className='auth-link'>Create new account</Link>
+                <Link to='/signUp' className='auth-link'>Sign Up</Link>
             </div>
         </div>
     )

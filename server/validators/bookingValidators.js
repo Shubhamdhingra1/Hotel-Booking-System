@@ -13,6 +13,19 @@ export function validateServiceBookingBody(body) {
         throw createError(400, "Invalid service type");
     }
 
+    const selectedSeats = Array.isArray(body.selectedSeats)
+        ? body.selectedSeats.map((s) => String(s).toUpperCase().trim()).filter(Boolean)
+        : [];
+
+    let passengers = Math.max(1, Number(body.passengers) || 1);
+    if (serviceType === "flight" && selectedSeats.length > 0) {
+        passengers = selectedSeats.length;
+    }
+
+    if (serviceType === "flight" && selectedSeats.length === 0) {
+        throw createError(400, "Select seats before booking this flight");
+    }
+
     return {
         serviceType,
         itemId,
@@ -20,7 +33,8 @@ export function validateServiceBookingBody(body) {
         totalPrice: Number(totalPrice),
         startDate: body.startDate,
         endDate: body.endDate,
-        passengers: Math.max(1, Number(body.passengers) || 1),
+        passengers,
+        selectedSeats,
     };
 }
 

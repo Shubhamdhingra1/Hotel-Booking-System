@@ -4,7 +4,10 @@ import {
     getCarForPublicView,
     markExpiredPeerListings,
 } from "../services/carListingService.js";
-import { isCarAvailableForNights } from "../utils/carAvailability.js";
+import {
+    hasBookableRentalDays,
+    isCarAvailableForNights,
+} from "../utils/carAvailability.js";
 
 const buildPriceFilter = (min, max, field) => {
     const filter = {};
@@ -35,6 +38,8 @@ export const listPublicCars = async (req, res, next) => {
         const filter = buildPublicCarFilter(mongoQuery);
         const cap = Number(limit) || 50;
         let items = await CarRental.find(filter).limit(cap);
+
+        items = items.filter((car) => hasBookableRentalDays(car));
 
         if (rentFrom && rentTo) {
             items = items.filter((car) => isCarAvailableForNights(car, rentFrom, rentTo));

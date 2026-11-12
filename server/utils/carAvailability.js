@@ -60,3 +60,46 @@ export function startOfToday() {
     d.setHours(0, 0, 0, 0);
     return d;
 }
+
+/** Count days in the listing window (from today) that are not already booked. */
+export function countAvailableRentalDays(car) {
+    const today = startOfToday();
+    let fromTs = dayTimestamp(today);
+
+    if (car?.listFrom) {
+        const listFrom = dayTimestamp(car.listFrom);
+        if (listFrom != null && listFrom > fromTs) {
+            fromTs = listFrom;
+        }
+    }
+
+    let untilTs = null;
+    if (car?.listUntil) {
+        untilTs = dayTimestamp(car.listUntil);
+    } else if (!car?.isPeerListing) {
+        const horizon = new Date(today);
+        horizon.setFullYear(horizon.getFullYear() + 1);
+        untilTs = dayTimestamp(horizon);
+    }
+
+    if (untilTs == null || fromTs == null || fromTs > untilTs) {
+        return 0;
+    }
+
+    const booked = bookedSet(car?.unavailableDates);
+    let count = 0;
+    const cursor = new Date(fromTs);
+    cursor.setHours(0, 0, 0, 0);
+
+    while (dayTimestamp(cursor) != null && dayTimestamp(cursor) <= untilTs) {
+        const ts = dayTimestamp(cursor);
+        if (!booked.has(ts)) count += 1;
+        cursor.setDate(cursor.getDate() + 1);
+    }
+
+    return count;
+}
+
+export function hasBookableRentalDays(car) {
+    return countAvailableRentalDays(car) > 0;
+}
