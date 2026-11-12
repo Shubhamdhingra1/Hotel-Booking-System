@@ -5,7 +5,6 @@ import { baseURL } from '../../baseURL/baseURL';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { SearchContext } from '../../Context/searchContext';
 import { normalizeSearchOptions } from '../../utils/searchOptions';
-import { AuthContext } from '../../Context/authContext';
 import PaymentModal, { PaymentSuccessModal } from './PaymentModal';
 import { blockRoomAvailability } from '../../features/hotels/hotelApi';
 import { useBookingCheckout } from '../../shared/hooks/useBookingCheckout';
@@ -47,8 +46,6 @@ const Reserve = ({ setOpen, hotelId }) => {
     );
 
     const isAvailable = (roomNumber) => isRoomNumberAvailable(roomNumber, stayNights);
-
-    const { user } = useContext(AuthContext);
 
     const nights = useMemo(() => {
         if (!stayNights?.length) return 1;

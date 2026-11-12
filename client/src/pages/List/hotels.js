@@ -17,7 +17,7 @@ const Hotels = () => {
 
   const defaultDates = [{ startDate: new Date(), endDate: new Date(), key: "selection" }];
   const [destination, setDestination] = useState(location.state?.destination ?? "");
-  const [type, setType] = useState(location.state?.type ?? "");
+  const [type] = useState(location.state?.type ?? "");
   const [dates, setDates] = useState(location.state?.dates ?? defaultDates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(

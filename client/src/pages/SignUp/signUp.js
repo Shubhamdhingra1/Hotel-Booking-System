@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import './signUp.css';
-import axios from 'axios';
 import { registerAccount } from '../../features/users/userApi';
 import { completeAuthSession } from '../../shared/auth/session';
 import { useNavigate, Link } from 'react-router-dom';
